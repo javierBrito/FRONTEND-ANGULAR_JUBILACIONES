@@ -1,0 +1,37 @@
+[
+    {
+        "TIPL_COD": 1,
+        "TIPL_NOMBRE": "Ley Nro 2_2005",
+        "TIPL_FECHA": "2019-08-11 16:25:33"
+    },
+    {
+        "TIPL_COD": 2,
+        "TIPL_NOMBRE": "Ley Nro 3_2007",
+        "TIPL_FECHA": "2020-08-11 16:25:33"
+    },
+    {
+        "TIPL_COD": 3,
+        "TIPL_NOMBRE": "Ley Nro 4_2010",
+        "TIPL_FECHA": "2021-08-11 16:25:33"
+    },
+    {
+        "TIPL_COD": 4,
+        "TIPL_NOMBRE": "Ley Nro 7_2010",
+        "TIPL_FECHA": "2020-08-11 16:25:33"
+    },
+    {
+        "TIPL_COD": 5,
+        "TIPL_NOMBRE": "Ley Nro 8_2010",
+        "TIPL_FECHA": "2021-08-11 16:25:33"
+    },
+    {
+        "TIPL_COD": 6,
+        "TIPL_NOMBRE": "Ley Nro 9_2021",
+        "TIPL_FECHA": "2021-08-11 16:25:33"
+    },
+    {
+        "TIPL_COD": 7,
+        "TIPL_NOMBRE": "Ley Nro 10_2021",
+        "TIPL_FECHA": "2021-08-11 16:25:33"
+    }
+]

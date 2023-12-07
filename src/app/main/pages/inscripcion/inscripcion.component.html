@@ -1,0 +1,219 @@
+<div class="row">
+  <div class="col-12">
+    <form [formGroup]="formInscripcionCedula" (ngSubmit)="buscarCedula()">
+      <div class="row form-group">
+        <div class="col-md-6 col-12 form-group">
+          <label for="cedulaAbuscar"><b>{{'Cédula'}}</b></label>
+          <input type="text" name="cedulaAbuscar" id="cedulaAbuscar" formControlName="cedulaAbuscar"
+            (keypress)="validateFormat($event)" maxlength="10" placeholder="Por favor, ingrese el número de cédula."
+            class="form-control" (keyup)="onKey($event)"
+            [ngClass]="{'is-valid': cedulaAbuscarField?.dirty && !cedulaAbuscarField?.invalid && !cedulaAbuscarField?.errors,'is-invalid': cedulaAbuscarField?.dirty && cedulaAbuscarField?.invalid && cedulaAbuscarField?.errors}">
+          <div class="valid-feedback">
+            <span>{{ "Exito"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="cedulaAbuscarField?.errors?.['required']">{{"Requerido"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="cedulaAbuscarField?.errors?.['cedula_invalid']">{{"No es una cédula valida."}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="cedulaAbuscarField?.errors?.['minlength']">{{"Debe ingresar al menos 10 dígitos."}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="cedulaAbuscarField?.errors?.['maxlength']">{{"Solo puede ingresar 10 dígitos."}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="cedulaAbuscarField?.errors?.['pattern']">{{"Por favor, ingrese números."}}</span>
+          </div>
+        </div>
+        <div class="col-md-2 col-12 form-group">
+          <div class="my-2 text-left table-responsive">
+            <button type="submit" [disabled]="formInscripcionCedula.invalid" class="btn btn-info btn-rounded">
+              <b>{{ "Buscar"}}</b>
+              <b>{{ " "}}</b>
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 form-group was-validated" [hidden]="visibleEstadoTramite">
+          <label><b>{{'Estado Trámite / Fecha'}}</b></label>
+          <input type="text" formControlName="estadoTramite" class="form-control" [attr.disabled]="true">
+        </div>
+        <!--
+        <div class="col-md-12 col-12 form-group was-validated" [hidden]="visibleEstadoTramite">
+          <label><b>{{'Estado Trámite / Fecha'}}</b></label>
+          <ul>
+            <li *ngFor="let item of listaEstadoTramite">
+              <input type="checkbox" [checked]="true"><b>{{" " + item.esttraNombre + " / " + item.esttraFecha}}</b>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-12 col-12 form-group was-validated" [hidden]="visibleEstadoTramite">
+          <label><b>{{'Estado'}}</b></label>
+          <ul>
+            <li *ngFor="let item of listaTipoEstado">
+              <input type="checkbox" [checked]="item.tipestEstado == 1"><b>{{" " + item.tipestNombre }}</b>
+            </li>
+          </ul>
+        </div>
+        -->
+      </div>
+    </form>
+    <form [formGroup]="formInscripcion" (ngSubmit)="confirmarGuardar()">
+      <div class="row form-group">
+        <div class="col-md-6 col-12 form-group  was-validated">
+          <label><b>{{'Apellidos / Nombres'}}</b></label>
+          <input type="text" formControlName="nombre" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Fecha Nacimiento'}}</b></label>
+          <input type="date" formControlName="fechaNacimiento" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Edad'}}</b></label>
+          <input type="text" formControlName="edad" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Género'}}</b></label>
+          <input type="text" formControlName="genero" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Número Aportes'}}</b></label>
+          <input type="text" formControlName="aspAportacionesPub" class="form-control" [attr.disabled]="true">
+        </div>
+
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Zona'}}</b></label>
+          <input type="text" formControlName="zona" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Provincia'}}</b></label>
+          <input type="text" formControlName="provincia" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Distrito'}}</b></label>
+          <input type="text" formControlName="distrito" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label><b>{{'Cantón'}}</b></label>
+          <input type="text" formControlName="canton" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'Unidad educativa / Entidad Operativa Desconcentrada'}}</b></label>
+          <input type="text" formControlName="unidadEducativa" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label for="aspCorreo"><b>{{'Correo electrónico'}}</b></label>
+          <input type="email" formControlName="aspCorreo" name="aspCorreo" id="aspCorreo"
+            placeholder="Por favor, ingrese el correo." class="form-control"
+            oninput="aspCorreo.value = aspCorreo.value.toLowerCase()"
+            [ngClass]="{'is-valid': aspCorreoField?.dirty && !aspCorreoField?.invalid && !aspCorreoField?.errors,'is-invalid': aspCorreoField?.dirty && aspCorreoField?.invalid && aspCorreoField?.errors}">
+          <div class="valid-feedback">
+            <span>{{ "Exito"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspCorreoField?.errors?.['required']">{{"Requerido"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspCorreoField?.errors?.['email']">{{"Debe registrar en formato c@c.com"}}</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-12 form-group">
+          <label for="aspTelefono"><b>{{'Celular'}}</b></label>
+          <input type="text" formControlName="aspTelefono" name="aspTelefono" id="aspTelefono"
+            (keypress)="validateFormat($event)" maxlength="10" placeholder="Por favor, ingrese el número de celular."
+            class="form-control"
+            [ngClass]="{'is-valid': aspTelefonoField?.dirty && !aspTelefonoField?.invalid && !aspTelefonoField?.errors,'is-invalid': aspTelefonoField?.dirty && aspTelefonoField?.invalid && aspTelefonoField?.errors}">
+          <div class="valid-feedback">
+            <span>{{ "Exito"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspTelefonoField?.errors?.['required']">{{"Requerido"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspTelefonoField?.errors?.['minlength']">{{"Debe ingresar al menos 10 dígitos."}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspTelefonoField?.errors?.['maxlength']">{{"Solo puede ingresar 10 dígitos."}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspTelefonoField?.errors?.['pattern']">{{"Ingresar números."}}</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label for="aspDireccion"><b>{{'Dirección'}}</b></label>
+          <input type="text" formControlName="aspDireccion" name="aspDireccion" id="aspDireccion"
+            placeholder="Por favor, ingrese la Dirección." class="form-control"
+            [ngClass]="{'is-valid': aspDireccionField?.dirty && !aspDireccionField?.invalid && !aspDireccionField?.errors,'is-invalid': aspDireccionField?.dirty && aspDireccionField?.invalid && aspDireccionField?.errors}">
+          <div class="valid-feedback">
+            <span>{{ "Exito"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspDireccionField?.errors?.['required']">{{"Requerido"}}</span>
+          </div>
+          <div class="invalid-feedback">
+            <span *ngIf="aspDireccionField?.errors?.['minlength']">{{"Debe ingresar al menos 10 dígitos."}}</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'MDT - Impedimento'}}</b></label>
+          <input type="text" formControlName="aspNomImpedimento" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'MSP - Discapacidad'}}</b></label>
+          <input type="text" formControlName="tipdisNomDiscapacidadVer" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'Régimen laboral'}}</b></label>
+          <input type="text" formControlName="aspNomRegimenLab" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'Modalidad contratación'}}</b></label>
+          <input type="text" formControlName="aspNomModalidadCon" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'Partida general'}}</b></label>
+          <input type="text" formControlName="partGeneral" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-6 col-12 form-group">
+          <label><b>{{'Partida individual'}}</b></label>
+          <input type="text" formControlName="partIndividual" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-md-12 col-12 form-group">
+          <label><b>{{'Tipo Jubilación / Base Legal'}}</b></label>
+          <input type="text" formControlName="tipjubNombre" class="form-control" [attr.disabled]="true">
+        </div>
+        <div class="col-12 form-group">
+          <button [disabled]="disabledBoton" type="submit" class="btn btn-block btn-primary">
+            <b>{{ "Guardar"}}</b>
+            <b>{{ " "}}</b>
+            <i class="fa fa-save" style="font-size:14px;color:white"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="col-12 form-group">
+      <button [disabled]="disabledBotonPDF" class="btn btn-success btn-submit waves-effect waves-float waves-light"
+        (click)="imprimirPDF()">
+        <b>{{ "Generar PDF"}}</b>
+        <b>{{ " "}}</b>
+        <i class="fa fa-print" style="font-size:14px;color:red"></i>
+      </button>
+    </div>
+    <div class="col-12 form-group">
+      <button [disabled]="disabledBotonEC" class="btn btn-success btn-submit waves-effect waves-float waves-light"
+        (click)="enviarCorreo()">
+        <b>{{ "Enviar Correo"}}</b>
+        <b>{{ " "}}</b>
+        <i class="fa fa-envelope" style="font-size:14px;color:red"></i>
+      </button>
+    </div>
+
+  </div>
+</div>
+<div class="h-100" *ngIf="!loadDatos">
+  <div class="spinner">
+    <img src="assets/images/spinner/spinner.gif">
+  </div>
+</div>

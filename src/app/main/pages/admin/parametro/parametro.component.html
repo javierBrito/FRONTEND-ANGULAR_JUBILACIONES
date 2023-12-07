@@ -1,0 +1,290 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <div id="user-profile">
+      <h3>Parámetro</h3>
+      <div class="row">
+        <div class="col-12">
+          <div class="card profile-header mb-2">
+            <!-- CONTENIDO-->
+            <div class="card border-primary mb-3">
+              <!--<div class="card-header">Parámetro</div>-->
+              <div class="card-body text-primary">
+                <h5 class="card-title">Listado</h5>
+                <!--<div class="my-2 text-right table-responsive">-->
+                <!--
+                  <button type="button" class="btn btn-info btn-rounded" (click)="nuevoParametro()">
+                    NUEVO
+                    <i class="fa fa-plus-circle"></i>
+                  </button>
+                  -->
+                <button type="submit" (click)="nuevoParametro()" matTooltip="Agregar Nuevo Tipo Desvinculacion"
+                  class="btn btn-block btn-primary form-control mt-2">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  {{'Agregar Parámetro'}}
+                </button>
+                <!--</div>-->
+                <ng-container *ngIf="listaParametro.length > 0">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <!--<th scope="col">Jubilación</th>-->
+                          <th scope="col">Nombre</th>
+                          <!--<th scope="col">Nemónico</th>-->
+                          <th scope="col">Discapacidad</th>
+                          <th scope="col">Porcentaje %</th>
+                          <th scope="col">Edad Mínima</th>
+                          <th scope="col">Edad Máxima</th>
+                          <th scope="col">Mínimo Aportes</th>
+                          <th scope="col">Tiempo Servicio</th>
+                          <th scope="col">Base Legal</th>
+                          <th scope="col">Estado</th>
+                          <th scope="col">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="let registro of listaParametro | paginate: {id:'paginar', itemsPerPage: itemsRegistros, currentPage: page }; let index=index">
+                          <th scope="row">{{index+1}}</th>
+                          <!--<td><span *ngIf="registro.tipoJubilacion">{{registro.tipoJubilacion.tipjubNombre}}</span></td>-->
+                          <td>{{registro.parNombre}}</td>
+                          <!--<td>{{registro.parNemonico}}</td>-->
+                          <td><span *ngIf="registro.jubTipoDiscapacidad">{{registro.jubTipoDiscapacidad.tipdisNombre}}</span></td>
+                          <td>{{registro.tipdisPorcentaje}}</td>
+                          <td>{{registro.parEdadMin}}</td>
+                          <td>{{registro.parEdadMax}}</td>
+                          <td>{{registro.parMinAportaciones}}</td>
+                          <td>{{registro.parTiempoServicio}}</td>
+                          <td><span *ngIf="registro.jubTipoLey">{{registro.jubTipoLey.tipleyNombre}}</span></td>
+                          <td>{{registro.desEstado.descripcion}}</td>
+                          <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button (click)="editarParametro(registro)" matTooltip="Editar Parámetro" type=" button"
+                                class="btn btn-primary" rippleEffect round><i class="fa fa-pencil"
+                                  (click)="editarParametro(registro)"></i></button>
+                              <button (click)="eliminarParametro(registro)" matTooltip="Eliminar Parámetro"
+                                type="button" class="btn btn-danger" rippleEffect><i class="fa fa-trash"
+                                  (click)="eliminarParametro(registro)"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="row mt-5" *ngIf="listaParametro.length > itemsRegistros">
+                      <div class="col-12 text-center">
+                        <pagination-controls id="paginar" class="paginacion" [responsive]="true" [autoHide]="true"
+                          previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="page = $event"
+                          screenReaderCurrentLabel="Tú estas en la página:">
+                        </pagination-controls>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="listaParametro.length === 0">
+                  <div class="row">
+                    <div class="col-12">
+                      <p>No hay registros</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modal_form_registro let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Parámetro</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row" id="nueva-registro">
+      <div class="col-12">
+        <form [formGroup]="formParametro">
+          <div class="row form-group">
+            <div class="col-12">
+              <label>{{'Nombre'}}</label>
+              <input type="text" id="parNombre" formControlName="parNombre"
+                oninput="parNombre.value = parNombre.value.toUpperCase()" placeholder="Por favor ingresa el nombre"
+                class="form-control"
+                [ngClass]="{'is-valid': parNombreField.dirty && !parNombreField.invalid, 'is-invalid': parNombreField.dirty && parNombreField.invalid}">
+              <div class="valid-feedback">
+                <span>{{'Exitoso'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="parNombreField.errors?.required">{{'Requerido'}}</span>
+              </div>
+              <!--
+              <div class="invalid-feedback">
+                <span *ngIf="parNombreField.errors?.pattern">{{'Por favor ingresa solo letras.'}}</span>
+              </div>
+              -->
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <label>{{'Nemónico'}}</label>
+              <input type="text" id="parNemonico" formControlName="parNemonico"
+                oninput="parNemonico.value = parNemonico.value.toUpperCase()"
+                placeholder="Por favor ingresa el nemónico" class="form-control"
+                [ngClass]="{'is-valid': parNemonicoField.dirty && !parNemonicoField.invalid, 'is-invalid': parNemonicoField.dirty && parNemonicoField.invalid}">
+              <div class="valid-feedback">
+                <span>{{'Exitoso'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="parNemonicoField.errors?.required">{{'Requerido'}}</span>
+              </div>
+              <!--
+              <div class="invalid-feedback">
+                <span *ngIf="parNemonicoField.errors?.pattern">{{'Por favor ingresa solo letras.'}}</span>
+              </div>
+              -->
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="parEdadMin">{{'Edad Mínima(*): Formato 99 años'}}</label>
+              <input type="number" name="parEdadMin" formControlName="parEdadMin" class="form-control" id="parEdadMin"
+                placeholder="99" step="001" min="0" max="100"
+                [ngClass]="{'is-valid': parEdadMinField?.dirty && !parEdadMinField?.invalid && !parEdadMinField?.errors,'is-invalid': parEdadMinField?.dirty && parEdadMinField?.invalid && parEdadMinField?.errors}">
+              <div class="valid-feedback">
+                <span>{{ "Exito"}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="parEdadMinField?.errors?.['required']">{{"Requerido"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="parEdadMax">{{'Edad Máxima(*): Formato 99 años'}}</label>
+              <input type="number" name="parEdadMax" formControlName="parEdadMax" class="form-control" id="parEdadMax"
+                placeholder="99" step="001" min="0" max="100"
+                [ngClass]="{'is-valid': parEdadMaxField?.dirty && !parEdadMaxField?.invalid && !parEdadMaxField?.errors && (parEdadMaxField?.value > parEdadMinField?.value),'is-invalid': parEdadMaxField?.dirty && parEdadMaxField?.invalid && parEdadMaxField?.errors && !(parEdadMaxField?.value > parEdadMinField?.value)}">
+              <div class="valid-feedback">
+                <span>{{ "Exito"}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="parEdadMaxField?.errors?.['required']">{{"Requerido"}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="parMinAportaciones">{{'Mínimo Aportaciones(*): Formato 999 meses'}}</label>
+              <input type="number" name="parMinAportaciones" formControlName="parMinAportaciones" class="form-control" id="parMinAportaciones"
+                placeholder="999" step="0.01" min="0.01" max="500"
+                [ngClass]="{'is-valid': parMinAportacionesField?.dirty && !parMinAportacionesField?.invalid && !parMinAportacionesField?.errors,'is-invalid': parMinAportacionesField?.dirty && parMinAportacionesField?.invalid && parMinAportacionesField?.errors}">
+              <div class="valid-feedback">
+                <span>{{ "Exito"}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="parMinAportacionesField?.errors?.['required']">{{"Requerido"}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="parTiempoServicio">{{'Tiempo Servicio(*): Formato 99 años'}}</label>
+              <input type="number" name="parTiempoServicio" formControlName="parTiempoServicio" class="form-control" id="parTiempoServicio"
+                placeholder="99" step="0.01" min="0.01" max="500"
+                [ngClass]="{'is-valid': parTiempoServicioField?.dirty && !parTiempoServicioField?.invalid && !parTiempoServicioField?.errors,'is-invalid': parTiempoServicioField?.dirty && parTiempoServicioField?.invalid && parTiempoServicioField?.errors}">
+              <div class="valid-feedback">
+                <span>{{ "Exito"}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="parTiempoServicioField?.errors?.['required']">{{"Requerido"}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-12 mt-2">
+              <label for="tipoJubilacion">{{'Tipo Jubilación'}}</label>
+              <select class="custom-select" formControlName="tipjubCodigo" id="tipoJubilacion"
+                [ngClass]="{'is-valid': tipjubCodigoField.dirty && !tipjubCodigoField.invalid, 'is-invalid': tipjubCodigoField.dirty && tipjubCodigoField.invalid}">
+                <option value="">Seleccione tipo jubilación</option>
+                <option *ngFor="let registro of listaTipoJubilacion" [ngValue]="registro.tipjubCodigo">
+                  {{registro.tipjubNombre}}</option>
+              </select>
+              <div class="valid-feedback">
+                <span>{{'Exitoso'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipjubCodigoField.errors?.required">{{'Requerido'}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-12 mt-2">
+              <label for="tipoDiscapacidad">{{'Tipo Discapacidad'}}</label>
+              <select class="custom-select" formControlName="tipdisCodigo" id="tipoDiscapacidad"
+                [ngClass]="{'is-valid': tipdisCodigoField.dirty && !tipdisCodigoField.invalid, 'is-invalid': tipdisCodigoField.dirty && tipdisCodigoField.invalid}">
+                <option value="">Seleccione tipo discapacidad</option>
+                <option *ngFor="let registro of listaTipoDiscapacidad" [ngValue]="registro.tipdisCodigo">
+                  {{registro.tipdisNombre}}</option>
+              </select>
+              <div class="valid-feedback">
+                <span>{{'Exitoso'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipdisCodigoField.errors?.required">{{'Requerido'}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="tipdisPorcentaje">{{'Porcentaje(*): Formato 999 %'}}</label>
+              <input type="number" name="tipdisPorcentaje" formControlName="tipdisPorcentaje" class="form-control" id="tipdisPorcentaje"
+                placeholder="999" step="001" min="0" max="100"
+                [ngClass]="{'is-valid': tipdisPorcentajeField?.dirty && !tipdisPorcentajeField?.invalid && !tipdisPorcentajeField?.errors,'is-invalid': tipdisPorcentajeField?.dirty && tipdisPorcentajeField?.invalid && tipdisPorcentajeField?.errors}">
+              <div class="valid-feedback">
+                <span>{{ "Exito"}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipdisPorcentajeField?.errors?.['required']">{{"Requerido"}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-12 mt-2">
+              <label for="tipoLey">{{'Base Legal'}}</label>
+              <select class="custom-select" formControlName="tipleyCodigo" id="tipoLey"
+                [ngClass]="{'is-valid': tipleyCodigoField.dirty && !tipleyCodigoField.invalid, 'is-invalid': tipleyCodigoField.dirty && tipleyCodigoField.invalid}">
+                <option value="">Seleccione tipo ley</option>
+                <option *ngFor="let registro of listaTipoLey" [ngValue]="registro.tipleyCodigo">
+                  {{registro.tipleyNombre}}</option>
+              </select>
+              <div class="valid-feedback">
+                <span>{{'Exitoso'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipleyCodigoField.errors?.required">{{'Requerido'}}</span>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" [disabled]="formParametro.invalid" class="btn btn-outline-dark btn-primary"
+      (click)="modal.close('yes')" data-dismiss="modal">
+      {{botonModal}}
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('no')" ngbAutofocus>
+      {{'Cancelar'}}
+    </button>
+  </div>
+</ng-template>

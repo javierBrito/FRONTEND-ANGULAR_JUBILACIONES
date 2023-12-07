@@ -1,0 +1,130 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <div id="user-profile">
+      <h3>Tipo Ley</h3>
+      <div class="row">
+        <div class="col-12">
+          <div class="card profile-header mb-2">
+            <!-- CONTENIDO-->
+            <div class="card border-primary mb-3">
+              <div class="card-body text-primary">
+                <h5 class="card-title">Listado</h5>
+                  <button type="submit" (click)="nuevoTipoLey()"
+                    matTooltip="Agregar Nuevo Tipo Ley" class="btn btn-block btn-primary form-control mt-2">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    {{'Agregar Tipo Ley'}}
+                  </button>                
+                <ng-container *ngIf="listaTipoLey.length > 0">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Fecha</th>
+                          <th scope="col">Estado</th>
+                          <th scope="col">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="let registro of listaTipoLey | paginate: {id:'paginar', itemsPerPage: itemsRegistros, currentPage: page }; let index=index">
+                          <th scope="row">{{index+1}}</th>
+                          <td>{{registro.tipleyNombre}}</td>
+                          <td>{{registro.tipleyFecha}}</td>
+                          <td>{{registro.desEstado.descripcion}}</td>
+                          <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button (click)="editarTipoLey(registro)" matTooltip="Editar Tipo Ley" type=" button"
+                                class="btn btn-primary" rippleEffect round><i class="fa fa-pencil"
+                                  (click)="editarTipoLey(registro)"></i></button>
+                              <button (click)="eliminarTipoLey(registro)" matTooltip="Eliminar Tipo Ley" type="button"
+                                class="btn btn-danger" rippleEffect><i class="fa fa-trash"
+                                  (click)="eliminarTipoLey(registro)"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="row mt-5" *ngIf="listaTipoLey.length > itemsRegistros">
+                      <div class="col-12 text-center">
+                        <pagination-controls id="paginar" class="paginacion" [responsive]="true" [autoHide]="true"
+                          previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="page = $event"
+                          screenReaderCurrentLabel="Tú estas en la página:">
+                        </pagination-controls>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="listaTipoLey.length === 0">
+                  <div class="row">
+                    <div class="col-12">
+                      <p>No hay registros</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modal_form_registro let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Tipo Ley</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row" id="nueva-tipoley">
+      <div class="col-12">
+        <form [formGroup]="formTipoLey">
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="tipleyNombre">{{'Nombre'}}</label>
+              <input type="text" id="tipleyNombre" formControlName="tipleyNombre"
+                oninput="tipleyNombre.value = tipleyNombre.value.toUpperCase()"
+                placeholder="Por favor, ingrese el nombre" class="form-control"
+                [ngClass]="{'is-valid': tipleyNombreField.dirty && !tipleyNombreField.invalid, 'is-invalid': tipleyNombreField.dirty && tipleyNombreField.invalid}">
+              <div class="valid-feedback">
+                <span>{{'Exitoso'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipleyNombreField.errors?.required">{{'Requerido'}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipleyNombreField.errors?.pattern">{{'Por favor ingresa solo letras.'}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <label for="tipleyFecha">{{'Fecha(*): '}}</label>
+              <input type="date" name="tipleyFecha" formControlName="tipleyFecha" class="form-control" id="tipleyFecha"
+                [ngClass]="{'is-valid': tipleyFechaField?.dirty && !tipleyFechaField?.invalid && !tipleyFechaField?.errors,'is-invalid': tipleyFechaField?.dirty && tipleyFechaField?.invalid && tipleyFechaField?.errors}">
+              <div class="valid-feedback">
+                <span>{{ "Exito"}}</span>
+              </div>
+              <div class="invalid-feedback">
+                <span *ngIf="tipleyFechaField?.errors?.['required']">{{"Requerido"}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" [disabled]="formTipoLey.invalid" class="btn btn-outline-dark btn-primary"
+      (click)="modal.close('yes')" data-dismiss="modal">
+      {{botonModal}}
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('no')" ngbAutofocus>
+      {{'Cancelar'}}
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,42 @@
+[
+    {
+        "tipdisCod": 1,
+        "tipdisNombre": "Vejez",
+        "tipdisEstado": 1,
+        "fkTipjubCod": {
+            "tipJubCod": 2,
+            "tipJubNombre": "Especial",
+            "tipJubEstado": 1
+        }
+    },
+    {
+        "tipdisCod": 2,
+        "tipdisNombre": "Invalidez",
+        "tipdisEstado": 1,
+        "fkTipjubCod": {
+            "tipJubCod": 2,
+            "tipJubNombre": "Especial",
+            "tipJubEstado": 1
+        }
+    },
+    {
+        "tipdisCod": 3,
+        "tipdisNombre": "Ninguna",
+        "tipdisEstado": 1,
+        "fkTipjubCod": {
+            "tipJubCod": 1,
+            "tipJubNombre": "Voluntaria",
+            "tipJubEstado": 1
+        }
+    },
+    {
+        "tipdisCod": 4,
+        "tipdisNombre": "Demo",
+        "tipdisEstado": 0,
+        "fkTipjubCod": {
+            "tipJubCod": 1,
+            "tipJubNombre": "Voluntaria",
+            "tipJubEstado": 0
+        }
+    }
+]

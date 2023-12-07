@@ -1,0 +1,18 @@
+export interface IjubParametro {
+    parCodigo: number,
+    parNombre: string,
+    parNemonico: string,
+    parEdadMin: number,
+    parEdadMax: number,
+    parMinAportaciones: number,
+    parTiempoServicio: number,
+    parEstado: number,
+    tipjubCodigo: number,
+    jubTipoJubilacion: any,
+    tipdisCodigo: number,
+    tipdisPorcentaje: number,
+    jubTipoDiscapacidad: any,
+    desEstado: any,
+    tipleyCodigo: number,
+    jubTipoLey: any,
+}
